@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- compare.html - the result page for "Compare two players".
+     app.py fills in the {{...}} parts before sending it to the browser. -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare - Pindiz Records</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="players.html">Players</a>
+            <a href="entry.html">Entry Form</a>
+            <a href="findings.html">Findings</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>{{NAME_1}} vs {{NAME_2}}</h2>
+
+        <!-- 1. The numbers: the better value in each row is highlighted -->
+        <div class="box">
+            <h3>Stats</h3>
+            <table>
+                <tr><th>Stat</th><th>{{NAME_1}}</th><th>{{NAME_2}}</th></tr>
+                {{TABLE}}
+            </table>
+            <p class="winner">{{WINNER}}</p>
+        </div>
+
+        <!-- 2. The chart: one bar per match for each player -->
+        <div class="box">
+            <h3>Form chart: {{STAT}} in each match</h3>
+            <p class="small">
+                <span class="key bar1"></span> {{NAME_1}}
+                <span class="key bar2"></span> {{NAME_2}}
+                &nbsp;· Hover over a bar to see the match.
+            </p>
+            <div class="chart">
+{{CHART}}
+            </div>
+            <p class="small">Match 1 = each player's oldest recent match.</p>
+        </div>
+
+        <!-- 3. Gemini: comparison and forecast -->
+        <div class="box">
+            <h3>Gemini comparison and forecast</h3>
+            {{GEMINI}}
+            <p class="small">Written by Gemini from the records above. A forecast is a guess, not a fact.</p>
+        </div>
+
+        <p><a href="players.html#compare">← Compare two other players</a></p>
+    </main>
+
+    <footer>
+        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+    </footer>
+</body>
+</html>

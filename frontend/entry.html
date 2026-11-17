@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entry Form - Pindiz Records</title>
+    <!-- EXTERNAL CSS: one stylesheet for every page -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER + NAV: the same on every page -->
+    <header>
+        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="players.html">Players</a>
+            <a href="entry.html">Entry Form</a>
+            <a href="findings.html">Findings</a>
+        </nav>
+    </header>
+
+    <main>
+        <h2>Entry form</h2>
+
+        <!-- INLINE CSS: a one-off red warning on this line only -->
+        <p style="color: #cc0000; font-weight: bold; border: 2px solid #cc0000; padding: 10px;">
+            Demonstration only — data is not saved
+        </p>
+        <p class="small">This is the paper version of the form. To save players and records for real, use "Manage players" on the <a href="players.html">Players</a> page.</p>
+
+        <div class="box">
+            <h3>Add a match record</h3>
+            <form action="#" method="get">
+                <label for="player">Player</label>
+                <select id="player" name="player">
+                    <option value="101" selected>Mohammad Rizwan</option>
+                    <option value="102">Naseem Shah</option>
+                    <option value="103">Mohammad Amir</option>
+                    <option value="104">Daryl Mitchell</option>
+                    <option value="105">Sam Billings</option>
+                    <option value="106">Yasir Khan</option>
+                    <option value="107">Kamran Ghulam</option>
+                    <option value="108">Rishad Hossain</option>
+                    <option value="109">Asif Afridi</option>
+                    <option value="110">Dian Forrester</option>
+                    <option value="111">Abdullah Fazal</option>
+                    <option value="112">Usman Khawaja</option>
+                    <option value="113">Amad Butt</option>
+                    <option value="114">Cole McConchie</option>
+                    <option value="115">Mohammad Amir Khan</option>
+                    <option value="116">Shahzaib Khan</option>
+                    <option value="117">Saad Masood</option>
+                    <option value="118">Razaullah Khan</option>
+                    <option value="119">Jalat Khan</option>
+                </select>
+
+                <label for="date">Match date</label>
+                <input type="date" id="date" name="date" required>
+
+
+                <label for="runs">Runs (leave empty if did not bat)</label>
+                <input type="number" id="runs" name="runs" min="0">
+
+                <label for="wickets">Wickets (leave empty if did not bowl)</label>
+                <input type="number" id="wickets" name="wickets" min="0" max="10">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h3>Sample record</h3>
+            <p>This record was entered with the form above, then typed into MySQL as:</p>
+            <p><code>INSERT INTO Performances VALUES (310, 101, '2026-04-26', 26, NULL);</code></p>
+            <table>
+                <tr><th>Record ID</th><th>Player</th><th>Date</th><th>Runs</th><th>Wickets</th></tr>
+                <tr><td>310</td><td>Mohammad Rizwan (101)</td><td>2026-04-26</td><td>26</td><td>-</td></tr>
+            </table>
+        </div>
+    </main>
+
+    <!-- FOOTER: the same on every page -->
+    <footer>
+        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+    </footer>
+</body>
+</html>

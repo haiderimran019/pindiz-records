@@ -1,0 +1,305 @@
+/* style.css - EXTERNAL CSS, shared by every page.
+   Change something here and every page changes.
+
+   COLOURS (Pindiz):
+     #191e24  navy        header and footer
+     #ff4400  orange      main accent, player 1 in the chart
+     #1fd1b2  teal        player 2 in the chart
+     #b6f83f  lime        the "z" in the logo
+     #f5f6f8  light grey  page background
+     #ffffff  white       boxes
+     #222222  dark grey   text
+*/
+
+/* ---------- 1. Whole page ---------- */
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #222222;
+    background-color: #f5f6f8;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+a {
+    color: #ff4400;
+}
+
+/* ---------- 2. Header and navigation ---------- */
+header {
+    background-color: #191e24;
+    color: #ffffff;
+    padding: 16px 24px;
+    border-bottom: 4px solid #ff4400;
+}
+
+header h1 {
+    margin: 0 0 8px 0;
+    font-size: 26px;
+}
+
+.lime {
+    color: #b6f83f;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 20px;
+}
+
+nav a:hover {
+    color: #ff4400;
+}
+
+/* ---------- 3. Main area and boxes ---------- */
+main {
+    max-width: 900px;
+    margin: 24px auto;
+    padding: 0 16px;
+}
+
+.box {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.small {
+    font-size: 13px;
+    color: #666666;
+}
+
+/* ---------- 4. Player rows (click a player to open its stats) ---------- */
+details {
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+    margin-bottom: 8px;
+}
+
+summary {
+    cursor: pointer;
+    padding: 10px 16px;
+    font-weight: bold;
+}
+
+summary img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-right: 12px;
+    border: 2px solid #ff4400;
+}
+
+.role {
+    font-weight: normal;
+    color: #666666;
+}
+
+details[open] summary {
+    border-bottom: 1px solid #dddddd;
+}
+
+.stats {
+    padding: 12px 16px;
+}
+
+/* form badges next to each player's name */
+.badge {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+    background-color: #e4e6ea;
+    color: #444444;
+}
+
+.in-form {
+    background-color: #d6f5c8;
+    color: #1d6b00;
+}
+
+.out-of-form {
+    background-color: #ffd9cc;
+    color: #a32b00;
+}
+
+/* the role filter: All | Batter | Bowler ... */
+.filters a {
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+.filters a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* the green message after adding or removing */
+.message {
+    background-color: #d6f5c8;
+    border: 1px solid #8fd16f;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* ---------- 5. Tables ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+th, td {
+    border: 1px solid #dddddd;
+    padding: 6px 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #191e24;
+    color: #ffffff;
+}
+
+/* ---------- 6. Forms ---------- */
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+}
+
+input, select {
+    padding: 8px;
+    font-size: 15px;
+    border: 1px solid #bbbbbb;
+    border-radius: 4px;
+    width: 260px;
+}
+
+button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #ff4400;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #191e24;
+}
+
+button.danger {
+    background-color: #ffffff;
+    color: #cc0000;
+    border: 1px solid #cc0000;
+    font-size: 13px;
+    padding: 6px 14px;
+}
+
+button.plain {
+    background-color: transparent;
+    color: #666666;
+    border: 1px solid #bbbbbb;
+    font-size: 13px;
+}
+
+/* the better number in the compare table */
+.better {
+    background-color: #d6f5c8;
+    font-weight: bold;
+}
+
+.winner {
+    font-weight: bold;
+    color: #ff4400;
+}
+
+/* ---------- 7. Bar chart on the compare page ---------- */
+.chart {
+    display: flex;
+    align-items: flex-end;     /* bars stand on the bottom line */
+    gap: 14px;
+    height: 180px;
+    border-bottom: 2px solid #222222;
+    padding-top: 10px;
+}
+
+.match {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    position: relative;
+    padding-bottom: 22px;
+}
+
+.match p {
+    position: absolute;
+    bottom: -14px;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    margin: 0;
+}
+
+.bar {
+    width: 16px;
+    min-height: 2px;
+    position: relative;
+}
+
+.bar1 {
+    background-color: #ff4400;
+}
+
+.bar2 {
+    background-color: #1fd1b2;
+}
+
+/* the little label that appears when you hover over a bar */
+.tip {
+    display: none;
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 170px;
+    background-color: #191e24;
+    color: #ffffff;
+    font-size: 12px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.bar:hover .tip {
+    display: block;
+}
+
+.key {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-left: 8px;
+}
+
+/* ---------- 8. Footer ---------- */
+footer {
+    text-align: center;
+    font-size: 13px;
+    color: #cccccc;
+    background-color: #191e24;
+    padding: 16px;
+    margin-top: 40px;
+}

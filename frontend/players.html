@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- players.html - the backend (backend/app.py) fills in every {{...}} part from the data.
+     Open it through the backend: python backend/app.py, then http://127.0.0.1:5000/players.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players - Pindiz Records</title>
+    <!-- EXTERNAL CSS: one stylesheet for every page -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER + NAV: the same on every page -->
+    <header>
+        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="players.html">Players</a>
+            <a href="entry.html">Entry Form</a>
+            <a href="findings.html">Findings</a>
+        </nav>
+    </header>
+
+    <main>
+        {{MESSAGE}}
+
+        <!-- 1. COMPARE: the only part that uses Gemini -->
+        <div class="box" id="compare">
+            <h2>Compare two players</h2>
+            <form action="compare" method="get">
+                <label for="player1">Player 1</label>
+                <select id="player1" name="player1">
+                    {{OPTIONS_1}}
+                </select>
+
+                <label for="player2">Player 2</label>
+                <select id="player2" name="player2">
+                    {{OPTIONS_2}}
+                </select>
+
+                <label for="stat">Chart shows</label>
+                <select id="stat" name="stat">
+                    <option value="runs">Runs</option>
+                    <option value="wickets">Wickets</option>
+                </select>
+                <br>
+                <button type="submit">Compare</button>
+            </form>
+        </div>
+
+        <!-- 2. PLAYERS: click a name to open their records (<details>, no JavaScript) -->
+        <h2>Players ({{COUNT}})</h2>
+        <p class="filters">Show: {{FILTERS}}</p>
+        <p class="small">
+            Click a player to see their records. "-" means did not bat / did not bowl.<br>
+            Form = average of the last 3 matches compared with the matches before
+            (runs for batters, wickets for bowlers).
+        </p>
+        {{PLAYERS}}
+
+        <!-- 3. MANAGE: add a player or a match record (saved by the backend) -->
+        <h2>Manage players</h2>
+
+        <div class="box">
+            <h3>Add a new player</h3>
+            <form action="add_player" method="post" enctype="multipart/form-data">
+                <label for="name">Full name</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="role">Role</label>
+                <select id="role" name="role">
+                    <option>Batter</option>
+                    <option>Bowler</option>
+                    <option>All-rounder</option>
+                    <option>Wicketkeeper</option>
+                </select>
+
+                <label for="country">Country</label>
+                <input type="text" id="country" name="country" value="Pakistan" required>
+
+                <label for="photo">Photo (optional)</label>
+                <input type="file" id="photo" name="photo" accept="image/*">
+                <br>
+                <button type="submit">Add player</button>
+            </form>
+        </div>
+
+        <div class="box">
+            <h3>Add a match record</h3>
+            <form action="add_match" method="post">
+                <label for="player_id">Player</label>
+                <select id="player_id" name="player_id">
+                    {{OPTIONS_ADD}}
+                </select>
+
+                <label for="match_date">Match date</label>
+                <input type="date" id="match_date" name="match_date" required>
+
+                <label for="runs">Runs (empty = did not bat)</label>
+                <input type="number" id="runs" name="runs" min="0">
+
+                <label for="wickets">Wickets (empty = did not bowl)</label>
+                <input type="number" id="wickets" name="wickets" min="0" max="10">
+                <br>
+                <button type="submit">Add record</button>
+            </form>
+        </div>
+
+        <form action="reset" method="post">
+            <button type="submit" class="plain">Reset to the original data</button>
+        </form>
+    </main>
+
+    <!-- FOOTER: the same on every page -->
+    <footer>
+        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Pindiz Records</title>
+    <!-- EXTERNAL CSS: one stylesheet for every page -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- HEADER + NAV: the same on every page -->
+    <header>
+        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="players.html">Players</a>
+            <a href="entry.html">Entry Form</a>
+            <a href="findings.html">Findings</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="box">
+            <img src="images/logo.svg" alt="Pindiz Records badge: an orange P in a lime circle" width="100">
+            <h2>Pindiz player records</h2>
+            <p>
+                A simple record dashboard for the Pindiz PSL squad.
+                It stores each player's recent PSL matches (up to 10, from the last two years)
+                and shows them as profiles, tables and findings.
+            </p>
+        </div>
+
+        <div class="box">
+            <h3>What is on this website</h3>
+            <ul>
+                <li><a href="players.html">Players</a>: every player's records and form. Compare 2 players, add or remove players.</li>
+                <li><a href="entry.html">Entry Form</a>: the demonstration form for a match record.</li>
+                <li><a href="findings.html">Findings</a>: what our SQL queries found in the data.</li>
+            </ul>
+            <p class="small">Run the backend (python backend/app.py) to use the Players page.</p>
+        </div>
+    </main>
+
+    <!-- FOOTER: the same on every page -->
+    <footer>
+        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# the Gemini API key - never put it online
+api/key.txt
+.env
+# Python and system files
+__pycache__/
+*.pyc
+.DS_Store
+.vercel
+.env*
