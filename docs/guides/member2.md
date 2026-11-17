@@ -14,8 +14,11 @@ Key rules to know:
 | `header { background-color: #191e24 }` | Navy header bar |
 | `border-bottom: 4px solid #ff4400` | Orange line under the header |
 | `.box` | White box with a thin border and round corners |
-| `summary img { border-radius: 50% }` | Round player photos |
-| `nav a:hover` | Link turns orange when the mouse is over it |
+| `h2::after` | The short orange line under each centred title |
+| `.cards { display: grid }` | Puts the player cards in rows, like the club website |
+| `.profile img { border-radius: 50% }` | Round photo on a player's profile |
+| `@media (max-width: 650px)` | Phone layout: 2 cards per row, forms one under the other |
+| `nav a:hover` | A lime line appears under the menu link |
 | `table { border-collapse: collapse }` | Single thin lines between cells |
 | `.chart { display: flex; align-items: flex-end }` | Puts the bars side by side, standing on the bottom line |
 | `.bar1` / `.bar2` | Orange bars for player 1, teal for player 2 |

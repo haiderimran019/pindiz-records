@@ -13,6 +13,7 @@ from google import genai
 
 # ===== SETTINGS (change these live) =====
 MODEL = "gemini-3.8-flash"
+BACKUP_MODEL = "gemini-3.5-flash"      # used if the main model is busy
 INSTRUCTIONS = (
     "You are a cricket analyst. Use ONLY the PSL match records below (oldest first).\n"
     "Reply in exactly 2 short lines and nothing else:\n"
@@ -32,15 +33,19 @@ def ask_gemini(records_1, records_2):
         with open(KEY_FILE) as file:
             key = file.read().strip()
     if key == "":
-        return "Gemini is not set up yet: put your API key in api/key.txt"
+        return "Gemini is not set up yet. Put your API key in api/key.txt."
 
     # Step 3: build the question: instructions + both players' records
     prompt = INSTRUCTIONS + "\n\n" + records_1 + "\n" + records_2
 
-    # Step 4: send it to Gemini and return the answer text
-    try:
-        client = genai.Client(api_key=key)
-        response = client.models.generate_content(model=MODEL, contents=prompt)
-        return response.text.strip()
-    except Exception as error:
-        return "Gemini could not answer: " + str(error)
+    # Step 4: send it to Gemini and return the answer text.
+    # If the main model is busy, try the backup model once.
+    client = genai.Client(api_key=key)
+    for model in [MODEL, BACKUP_MODEL]:
+        try:
+            response = client.models.generate_content(model=model, contents=prompt)
+            return response.text.strip()
+        except Exception:
+            pass
+
+    return "Gemini is busy right now. Press Compare again in a moment."

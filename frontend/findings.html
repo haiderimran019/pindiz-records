@@ -3,21 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Findings - Pindiz Records</title>
+    <title>Findings | Pindiz Records</title>
     <!-- EXTERNAL CSS: one stylesheet for every page -->
     <link rel="stylesheet" href="style.css">
-    <!-- INTERNAL CSS: only this page needs the highlight -->
+    <!-- INTERNAL CSS: only this page needs these -->
     <style>
-        .highlight {
-            background-color: #fff3cc;
+        .finding {
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+        .number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            border-radius: 50%;
+            background-color: #ff4400;
+            color: #ffffff;
             font-weight: bold;
+            text-align: center;
+        }
+        .highlight {
+            border: 2px solid #ff4400;
         }
     </style>
 </head>
 <body>
-    <!-- HEADER + NAV: the same on every page -->
+    <!-- HEADER: the same on every page -->
     <header>
-        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <a class="brand" href="index.html"><img src="images/logo.png" alt="Pindiz team logo">Pindiz Records</a>
         <nav>
             <a href="index.html">Home</a>
             <a href="players.html">Players</a>
@@ -28,62 +43,78 @@
 
     <main>
         <h2>Findings</h2>
-
-        <div class="box">
-            <h3>Three findings from our SQL queries</h3>
-            <table>
-                <tr><th>#</th><th>Finding</th><th>Evidence (query and record IDs)</th></tr>
-                <tr>
-                    <td>1</td>
-                    <td>Only 10 of the 105 times our players batted reached 50 runs.</td>
-                    <td>Q1 returns 10 rows. Top three: 353 (83), 406 (66), 333 (65).</td>
-                </tr>
-                <tr class="highlight">
-                    <td>2</td>
-                    <td>The highest score was Yasir Khan's 83. There were 16 ducks (0 runs).</td>
-                    <td>Q2 first row: 353. Last rows include 305, 325, 331, 370.</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Mohammad Amir and Rishad Hossain took the most wickets: 12 each.</td>
-                    <td>Q4 with IDs 103 and 108: records 321–330 and 371–380.</td>
-                </tr>
-            </table>
+        <div class="tiles">
+            <div class="tile"><b>10</b><span>Fifties</span></div>
+            <div class="tile"><b>83</b><span>Highest score</span></div>
+            <div class="tile"><b>16</b><span>Ducks</span></div>
+            <div class="tile"><b>12</b><span>Most wickets</span></div>
         </div>
 
-        <div class="box">
-            <h3>Leaders (total of each player's recent matches)</h3>
-            <table>
-                <tr><th>Most runs</th><th>Runs</th><th>Most wickets</th><th>Wickets</th></tr>
-                <tr><td>Kamran Ghulam</td><td>271</td><td>Mohammad Amir</td><td>12</td></tr>
-                <tr><td>Yasir Khan</td><td>261</td><td>Rishad Hossain</td><td>12</td></tr>
-                <tr><td>Daryl Mitchell</td><td>255</td><td>Naseem Shah</td><td>8</td></tr>
-            </table>
+        <div class="box finding">
+            <div class="number">1</div>
+            <div>
+                <h3>Fifties are rare</h3>
+                <p>Only 10 of the 105 innings reached 50 runs.</p>
+                <p class="small">Query Q1. Top three records: 353, 406 and 333.</p>
+            </div>
         </div>
 
+        <div class="box finding highlight">
+            <div class="number">2</div>
+            <div>
+                <h3>Highest score and ducks</h3>
+                <p>Yasir Khan made the highest score, 83 runs. There were 16 ducks.</p>
+                <p class="small">Query Q2. First row is record 353. Ducks include records 305, 325, 331 and 370.</p>
+            </div>
+        </div>
+
+        <div class="box finding">
+            <div class="number">3</div>
+            <div>
+                <h3>Top wicket takers</h3>
+                <p>Mohammad Amir and Rishad Hossain took the most wickets, 12 each.</p>
+                <p class="small">Query Q4 with players 103 and 108. Records 321 to 330 and 371 to 380.</p>
+            </div>
+        </div>
+
+        <h2>Leaders</h2>
+        <div class="two">
+            <div class="box">
+                <h3>Most runs</h3>
+                <table>
+                    <tr><th>Player</th><th>Runs</th></tr>
+                    <tr><td>Kamran Ghulam</td><td>271</td></tr>
+                    <tr><td>Yasir Khan</td><td>261</td></tr>
+                    <tr><td>Daryl Mitchell</td><td>255</td></tr>
+                </table>
+            </div>
+            <div class="box">
+                <h3>Most wickets</h3>
+                <table>
+                    <tr><th>Player</th><th>Wickets</th></tr>
+                    <tr><td>Mohammad Amir</td><td>12</td></tr>
+                    <tr><td>Rishad Hossain</td><td>12</td></tr>
+                    <tr><td>Naseem Shah</td><td>8</td></tr>
+                </table>
+            </div>
+        </div>
+
+        <h2>Data checks</h2>
         <div class="box">
-            <h3>Data checks (on test rows 900+ only)</h3>
+            <p class="small center">Done on test rows only, so the real data was never changed.</p>
             <table>
                 <tr><th>Problem</th><th>Test row</th><th>How we found it</th><th>Fix</th></tr>
-                <tr><td>Missing value</td><td>Player 901, no role</td><td><code>WHERE role IS NULL</code></td><td>UPDATE the role</td></tr>
-                <tr><td>Duplicate ID</td><td>A second player 101</td><td>MySQL refused it (PRIMARY KEY)</td><td>Used ID 902</td></tr>
-                <tr><td>Impossible value</td><td>Record 903, −3 wickets</td><td><code>WHERE wickets &lt; 0</code></td><td>DELETE the row</td></tr>
+                <tr><td>Missing value</td><td>Player 901 with no role</td><td>role IS NULL</td><td>Update the role</td></tr>
+                <tr><td>Duplicate ID</td><td>A second player 101</td><td>MySQL refused it</td><td>Use ID 902</td></tr>
+                <tr><td>Impossible value</td><td>Record 903 with minus 3 wickets</td><td>wickets &lt; 0</td><td>Delete the row</td></tr>
             </table>
-        </div>
-
-        <div class="box">
-            <h3>Limitation</h3>
-            <p>
-                Ten matches is a small sample: it shows recent form, not true ability.
-                Some players have very few PSL matches (Jalat Khan 1, Amad Butt and Razaullah Khan 2),
-                so their numbers are less reliable.
-            </p>
         </div>
     </main>
 
     <!-- FOOTER: the same on every page -->
     <footer>
-        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+        <p>Data source: ESPNcricinfo Statsguru</p>
+        <a class="github" href="https://github.com/haiderimran019/pindiz-records"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>GitHub</a>
     </footer>
 </body>
 </html>

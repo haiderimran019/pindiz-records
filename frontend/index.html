@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Pindiz Records</title>
+    <title>Home | Pindiz Records</title>
     <!-- EXTERNAL CSS: one stylesheet for every page -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER + NAV: the same on every page -->
+    <!-- HEADER: the same on every page -->
     <header>
-        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <a class="brand" href="index.html"><img src="images/logo.png" alt="Pindiz team logo">Pindiz Records</a>
         <nav>
             <a href="index.html">Home</a>
             <a href="players.html">Players</a>
@@ -20,30 +20,46 @@
     </header>
 
     <main>
-        <div class="box">
-            <img src="images/logo.svg" alt="Pindiz Records badge: an orange P in a lime circle" width="100">
-            <h2>Pindiz player records</h2>
-            <p>
-                A simple record dashboard for the Pindiz PSL squad.
-                It stores each player's recent PSL matches (up to 10, from the last two years)
-                and shows them as profiles, tables and findings.
-            </p>
+        <div class="box center">
+            <img src="images/logo.png" alt="Pindiz team logo" width="110">
+            <h1>Pindiz Player Records</h1>
+            <p>The records of every Pindiz player in one place: profiles, recent stats, form, and a side by side comparison of any two players.</p>
+        </div>
+
+        <h2>Team performance in PSL 2026</h2>
+        <div class="tiles">
+            <div class="tile"><b>10</b><span>Played</span></div>
+            <div class="tile"><b>1</b><span>Won</span></div>
+            <div class="tile"><b>9</b><span>Lost</span></div>
+            <div class="tile"><b>10%</b><span>Win rate</span></div>
         </div>
 
         <div class="box">
-            <h3>What is on this website</h3>
-            <ul>
-                <li><a href="players.html">Players</a>: every player's records and form. Compare 2 players, add or remove players.</li>
-                <li><a href="entry.html">Entry Form</a>: the demonstration form for a match record.</li>
-                <li><a href="findings.html">Findings</a>: what our SQL queries found in the data.</li>
-            </ul>
-            <p class="small">Run the backend (python backend/app.py) to use the Players page.</p>
+            <h3>Results against each team</h3>
+            <table>
+                <tr><th>Opponent</th><th>Played</th><th>Won</th><th>Lost</th></tr>
+                <tr><td>Hyderabad Kingsmen</td><td>2</td><td>0</td><td>2</td></tr>
+                <tr><td>Islamabad United</td><td>2</td><td>1</td><td>1</td></tr>
+                <tr><td>Karachi Kings</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>Lahore Qalandars</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>Multan Sultans</td><td>2</td><td>0</td><td>2</td></tr>
+                <tr><td>Peshawar Zalmi</td><td>1</td><td>0</td><td>1</td></tr>
+                <tr><td>Quetta Gladiators</td><td>1</td><td>0</td><td>1</td></tr>
+            </table>
+        </div>
+
+        <h2>What is on this website</h2>
+        <div class="tiles">
+            <a class="tile" href="players.html"><b>Players</b><span>Profiles, stats, form and compare</span></a>
+            <a class="tile" href="entry.html"><b>Entry</b><span>Add a player or a match record</span></a>
+            <a class="tile" href="findings.html"><b>Findings</b><span>What our SQL queries found</span></a>
         </div>
     </main>
 
     <!-- FOOTER: the same on every page -->
     <footer>
-        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+        <p>Data source: ESPNcricinfo Statsguru</p>
+        <a class="github" href="https://github.com/haiderimran019/pindiz-records"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>GitHub</a>
     </footer>
 </body>
 </html>

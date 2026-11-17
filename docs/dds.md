@@ -9,7 +9,8 @@
           ┌──────────┼──────────┐
    players.html  entry.html  findings.html
         │
-        └── Compare form ──► backend/app.py ──► compare result page
+        ├── player card ──► player profile page
+        └── Compare form ──► compare result page
 ```
 Every page has the same navigation bar, so any page can be reached from any other page.
 
@@ -18,23 +19,24 @@ Every page has the same navigation bar, so any page can be reached from any othe
 ## 2. Page layout (same on every page)
 ```
 ┌───────────────────────────────────────┐
-│ HEADER  Pindiz Records                │
+│ HEADER  logo + Pindiz Records, centred│
 │ NAV     Home | Players | Entry Form | │
 │         Findings                      │
 ├───────────────────────────────────────┤
 │ MAIN    white boxes with headings,    │
 │         text, tables and forms        │
 ├───────────────────────────────────────┤
-│ FOOTER  data source                   │
+│ FOOTER  data source + GitHub button   │
 └───────────────────────────────────────┘
 ```
 
 | Page | Main content |
 |---|---|
-| index.html | Badge image, short description, list of pages |
-| players.html (built by the backend) | Compare form; role filter; one row per player (photo, name, role, form badge) that opens their totals, match table and Remove button; "Manage players" forms (add player, add match record); Reset button |
-| entry.html | "Demonstration only" banner, the match entry form, sample record |
-| findings.html | 3 SQL findings, leaders table, data checks, limitation |
+| index.html | Team logo, short description, PSL 2026 team performance (played, won, lost, win rate, results against each team), links to the pages |
+| players.html (built by the backend) | Compare form, role filter, a grid of player cards (photo, name, role, form badge) like the club website |
+| player profile (backend/player.html) | Photo, name, role, country, form badge, number tiles, match records table, Remove button |
+| entry.html (built by the backend) | "Demonstration only — data is not saved" banner with a note, Add a match record form, Add a new player form, Reset button |
+| findings.html | Number tiles, 3 numbered findings with record IDs, leaders, data checks |
 | compare page (from the backend) | Stats table (better number highlighted, winner line), bar chart (hover for details), Gemini's comparison and forecast |
 
 ---
@@ -43,7 +45,7 @@ Every page has the same navigation bar, so any page can be reached from any othe
 | Type | Where | What it does | Why |
 |---|---|---|---|
 | External | `frontend/style.css` | All shared styling: header, nav, boxes, player rows, tables, forms, chart | One change updates every page |
-| Internal | `<style>` in `findings.html` | Highlights one finding row | Only that page needs it |
+| Internal | `<style>` in `findings.html` | The numbered circles and the highlighted finding | Only that page needs it |
 | Inline | `style=""` on the banner in `entry.html`, and on each chart bar | Red warning; the height of each bar | One-off values |
 
 **Colours:** navy `#191e24` (header, footer), orange `#ff4400` (accent, player 1), teal `#1fd1b2` (player 2), lime `#b6f83f` (logo "z"), light grey page, white boxes.
@@ -87,7 +89,7 @@ One player has many Performances rows (one per match). They are linked by `playe
 |---|---|---|
 | T1 | Click every nav link on every page | Correct page opens |
 | T2 | Move the folder, open index.html | All links and images still work |
-| T2b | Click a player row on players.html | Their records open; click again to close |
+| T2b | Click a player card on players.html | That player's profile page opens |
 | T3 | Run 1_create.sql to 5_checks.sql in order | No errors (except the planned duplicate-ID error) |
 | T4 | Run Q1 (runs ≥ 50) | Only matches of 50 or more |
 | T5 | Run Q2 | Matches sorted highest to lowest |

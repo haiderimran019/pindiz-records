@@ -1,11 +1,13 @@
 # Member 4: Backend, API and docs
-**Your files:** `backend/app.py`, `backend/compare.html`, `api/gemini.py`, everything in `docs/`
+**Your files:** `backend/app.py`, `api/gemini.py`, everything in `docs/`
 
 ## What your files do
 **backend/app.py** (a small Flask web server). Each `@app.route(...)` is one web address:
 | Route | What it does |
 |---|---|
-| `/players.html` | Reads the CSV files, works out each player's stats and form badge, fills `frontend/players.html` |
+| `/players.html` | Reads the CSV files, works out each player's form badge, fills `frontend/players.html` with player cards |
+| `/player?id=101` | One player's profile: totals, form badge, match table; fills `backend/player.html` |
+| `/entry.html` | Fills the player list into the Entry Form |
 | `/add_player` | Checks the input, gives the next ID, saves the row (and photo as `images/<ID>.jpg`) |
 | `/add_match` | Checks runs ≥ 0 and wickets 0–10, saves the new match record |
 | `/remove` | Saves the CSV files without that player and their matches |
@@ -16,7 +18,7 @@ Form badge rule (`form_of`): average of the last 3 matches vs the matches before
 
 **api/gemini.py**: the only file that talks to Gemini.
 1. Reads the API key from `api/key.txt` (never submitted). If it's missing, it returns a friendly message instead.
-2. Joins `INSTRUCTIONS` with both players' records and sends it to Gemini.
+2. Joins `INSTRUCTIONS` with both players' records and sends it to Gemini. If `MODEL` is busy it tries `BACKUP_MODEL`.
 3. Returns Gemini's 2 lines: Comparison and Forecast.
 
 **docs/**: the SRS (what the system must do), DDS (how it is designed), algorithms, architecture and rules.

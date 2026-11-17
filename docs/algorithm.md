@@ -16,10 +16,10 @@ Each algorithm is written as plain steps, then as a simple text flowchart.
 
 ---
 
-## A2. Entry form on entry.html (demonstration)
-1. User fills in the match record form (player, date, runs, wickets).
-2. User presses **Submit**.
-3. Nothing is saved: the form is a demonstration, as the brief asks.
+## A2. Entry Form (entry.html)
+1. User fills in "Add a match record" (player, date, runs, wickets) or "Add a new player" (name, role, country, photo).
+2. User presses the button. The backend checks the input (see A10) and saves it in the demo copy of the data.
+3. Nothing goes into the MySQL database, so the page carries the booklet's banner "Demonstration only — data is not saved".
 4. The team types the same record into MySQL by hand with an INSERT.
 5. The same record is shown in a table under the form.
 
@@ -84,14 +84,14 @@ Each algorithm is written as plain steps, then as a simple text flowchart.
 
 ---
 
-## A7. Click a player to open their records (players.html)
-1. Each player is one `<details>` element.
-2. The `<summary>` line (photo, name, role) is always visible.
-3. Clicking it opens the rest: totals and the table of matches. Clicking again closes it.
-4. The browser does this by itself: no JavaScript.
+## A7. Open a player's profile (players.html → player page)
+1. Each player card is a link: `player?id=101`.
+2. The backend finds player 101 and their matches in the CSV files.
+3. It works out the totals and form badge and fills in `backend/player.html`.
+4. The browser shows the profile page.
 
 ```
-[Click player row] → <open?> --no--> [Show records] / --yes--> [Hide records]
+[Click card] → [player?id=101] → [Find player + matches] → [Fill player.html] → [Profile page]
 ```
 
 ---

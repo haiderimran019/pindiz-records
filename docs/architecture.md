@@ -40,14 +40,15 @@
 | `docs/` | SRS, design, algorithms, rules, member guides | Markdown |
 
 ## 3. What needs the backend?
-- **Home, Entry Form, Findings** are plain HTML and CSS. They also open with a double-click.
-- **Players** is built by the backend from the CSV files, so added or removed players show up at once.
-  Adding, removing, the role filter and the form badges all happen in `backend/app.py`.
+- **Home and Findings** are plain HTML and CSS. They also open with a double-click.
+- **Players**, each **player profile** and the **Entry Form** are filled in by the backend from the CSV files,
+  so added or removed players show up at once. Adding, removing, the role filter and the form badges
+  all happen in `backend/app.py`.
 - **Compare two players** reads the CSV files, builds the stats table and chart, and calls Gemini.
   It is the only part that uses Gemini.
 - **Live website (Vercel):** the project folder is read-only there, so the backend copies the data to
   `/tmp` and saves changes there. Changes on the live site reset when the server restarts.
-- There is no JavaScript anywhere. The player rows open with `<details>`, the chart bars are `<div>`s
+- There is no JavaScript anywhere. Each player card is a link to that player's profile page, the chart bars are `<div>`s
   with an inline height, and the hover labels use CSS `:hover`.
 
 ## 4. How a change flows through the system

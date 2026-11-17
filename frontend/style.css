@@ -2,10 +2,10 @@
    Change something here and every page changes.
 
    COLOURS (Pindiz):
-     #191e24  navy        header and footer
-     #ff4400  orange      main accent, player 1 in the chart
+     #191e24  navy        header, footer, player cards
+     #ff4400  orange      main colour, player 1 in the chart
      #1fd1b2  teal        player 2 in the chart
-     #b6f83f  lime        the "z" in the logo
+     #b6f83f  lime        small highlights
      #f5f6f8  light grey  page background
      #ffffff  white       boxes
      #222222  dark grey   text
@@ -25,6 +25,21 @@ h1, h2, h3 {
     margin-top: 0;
 }
 
+/* section titles are centred with a short orange line under them */
+h2 {
+    text-align: center;
+    margin: 36px 0 20px 0;
+}
+
+h2::after {
+    content: "";
+    display: block;
+    width: 50px;
+    height: 4px;
+    margin: 8px auto 0 auto;
+    background-color: #ff4400;
+}
+
 a {
     color: #ff4400;
 }
@@ -32,43 +47,58 @@ a {
 /* ---------- 2. Header and navigation ---------- */
 header {
     background-color: #191e24;
-    color: #ffffff;
-    padding: 16px 24px;
+    text-align: center;
+    padding: 18px 16px 12px 16px;
     border-bottom: 4px solid #ff4400;
 }
 
-header h1 {
-    margin: 0 0 8px 0;
+.brand {
+    color: #ffffff;
+    text-decoration: none;
     font-size: 26px;
+    font-weight: bold;
 }
 
-.lime {
-    color: #b6f83f;
+.brand img {
+    height: 54px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+nav {
+    margin-top: 12px;
 }
 
 nav a {
     color: #ffffff;
     text-decoration: none;
-    margin-right: 20px;
+    margin: 0 12px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid transparent;
 }
 
+/* hover: a lime line appears under the link (the text colour stays white) */
 nav a:hover {
-    color: #ff4400;
+    border-bottom: 2px solid #b6f83f;
 }
 
-/* ---------- 3. Main area and boxes ---------- */
+/* ---------- 3. Main area, boxes and number tiles ---------- */
 main {
-    max-width: 900px;
-    margin: 24px auto;
-    padding: 0 16px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px 16px;
 }
 
 .box {
     background-color: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 8px;
+    border: 1px solid #e1e3e7;
+    border-radius: 10px;
     padding: 20px;
     margin-bottom: 20px;
+}
+
+.center {
+    text-align: center;
 }
 
 .small {
@@ -76,50 +106,133 @@ main {
     color: #666666;
 }
 
-/* ---------- 4. Player rows (click a player to open its stats) ---------- */
-details {
+/* a row of big numbers, e.g. Played 10, Won 1 ... */
+.tiles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.tile {
     background-color: #ffffff;
-    border: 1px solid #dddddd;
-    border-radius: 8px;
-    margin-bottom: 8px;
+    border: 1px solid #e1e3e7;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
 }
 
-summary {
-    cursor: pointer;
-    padding: 10px 16px;
-    font-weight: bold;
+.tile b {
+    display: block;
+    font-size: 32px;
+    color: #ff4400;
 }
 
-summary img {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    vertical-align: middle;
-    margin-right: 12px;
-    border: 2px solid #ff4400;
-}
-
-.role {
-    font-weight: normal;
+.tile span {
+    font-size: 14px;
     color: #666666;
 }
 
-details[open] summary {
-    border-bottom: 1px solid #dddddd;
+/* a tile that is also a link (Home page) */
+a.tile {
+    text-decoration: none;
+    color: #222222;
 }
 
-.stats {
-    padding: 12px 16px;
+a.tile b {
+    font-size: 22px;
 }
 
-/* form badges next to each player's name */
+a.tile:hover {
+    border-color: #ff4400;
+}
+
+/* two boxes side by side on a computer, one under the other on a phone */
+.two {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* the green note after adding or removing */
+.message {
+    background-color: #d6f5c8;
+    border: 1px solid #8fd16f;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* ---------- 4. Player cards (in a row, like the club website) ---------- */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 16px;
+}
+
+.card {
+    background-color: #191e24;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding-bottom: 14px;
+}
+
+.card:hover {
+    outline: 3px solid #ff4400;
+}
+
+.card img {
+    width: 100%;
+    display: block;
+}
+
+.card h3 {
+    font-size: 15px;
+    text-transform: uppercase;
+    margin: 10px 8px 2px 8px;
+}
+
+.card p {
+    margin: 0 0 8px 0;
+    font-size: 13px;
+    color: #b6f83f;
+}
+
+/* role filter buttons */
+.filters {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.filters a {
+    display: inline-block;
+    margin: 4px;
+    padding: 6px 14px;
+    border: 1px solid #cccccc;
+    border-radius: 20px;
+    color: #222222;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: #ffffff;
+}
+
+.filters a.active {
+    background-color: #191e24;
+    border-color: #191e24;
+    color: #ffffff;
+}
+
+/* form badges: In form, Steady, Out of form */
 .badge {
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
-    padding: 2px 8px;
+    padding: 2px 10px;
     border-radius: 10px;
-    margin-left: 8px;
     background-color: #e4e6ea;
     color: #444444;
 }
@@ -134,23 +247,16 @@ details[open] summary {
     color: #a32b00;
 }
 
-/* the role filter: All | Batter | Bowler ... */
-.filters a {
-    margin-right: 10px;
-    text-decoration: none;
+/* the top of a player's profile page */
+.profile img {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    border: 4px solid #ff4400;
 }
 
-.filters a.active {
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-/* the green message after adding or removing */
-.message {
-    background-color: #d6f5c8;
-    border: 1px solid #8fd16f;
-    padding: 10px;
-    border-radius: 6px;
+.profile h1 {
+    margin: 10px 0 4px 0;
 }
 
 /* ---------- 5. Tables ---------- */
@@ -161,59 +267,14 @@ table {
 }
 
 th, td {
-    border: 1px solid #dddddd;
-    padding: 6px 10px;
+    border-bottom: 1px solid #e1e3e7;
+    padding: 8px 10px;
     text-align: left;
 }
 
 th {
     background-color: #191e24;
     color: #ffffff;
-}
-
-/* ---------- 6. Forms ---------- */
-label {
-    display: block;
-    margin-top: 12px;
-    font-weight: bold;
-}
-
-input, select {
-    padding: 8px;
-    font-size: 15px;
-    border: 1px solid #bbbbbb;
-    border-radius: 4px;
-    width: 260px;
-}
-
-button {
-    margin-top: 16px;
-    padding: 10px 24px;
-    font-size: 15px;
-    color: #ffffff;
-    background-color: #ff4400;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #191e24;
-}
-
-button.danger {
-    background-color: #ffffff;
-    color: #cc0000;
-    border: 1px solid #cc0000;
-    font-size: 13px;
-    padding: 6px 14px;
-}
-
-button.plain {
-    background-color: transparent;
-    color: #666666;
-    border: 1px solid #bbbbbb;
-    font-size: 13px;
 }
 
 /* the better number in the compare table */
@@ -225,16 +286,80 @@ button.plain {
 .winner {
     font-weight: bold;
     color: #ff4400;
+    text-align: center;
+}
+
+/* ---------- 6. Forms and buttons ---------- */
+label {
+    display: block;
+    margin-top: 12px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+input, select {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 9px;
+    font-size: 15px;
+    border: 1px solid #bbbbbb;
+    border-radius: 6px;
+}
+
+button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    font-size: 15px;
+    color: #ffffff;
+    background-color: #ff4400;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #191e24;
+}
+
+button.light {
+    background-color: #ffffff;
+    color: #555555;
+    border: 1px solid #bbbbbb;
+}
+
+button.light:hover {
+    color: #cc0000;
+    border-color: #cc0000;
+}
+
+/* compare form: 3 boxes in one row */
+.compare-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+}
+
+/* the booklet's warning line on the Entry page */
+.note {
+    text-align: center;
+    font-size: 14px;
+    color: #555555;
 }
 
 /* ---------- 7. Bar chart on the compare page ---------- */
+.chart-box {
+    overflow-x: auto;          /* the chart can scroll sideways on a phone */
+    padding-bottom: 30px;      /* room for the match numbers under the bars */
+}
+
 .chart {
     display: flex;
     align-items: flex-end;     /* bars stand on the bottom line */
     gap: 14px;
     height: 180px;
+    min-width: 420px;
     border-bottom: 2px solid #222222;
-    padding-top: 10px;
+    padding: 10px 0 0 0;
 }
 
 .match {
@@ -242,12 +367,11 @@ button.plain {
     align-items: flex-end;
     gap: 3px;
     position: relative;
-    padding-bottom: 22px;
 }
 
 .match p {
     position: absolute;
-    bottom: -14px;
+    bottom: -24px;
     width: 100%;
     text-align: center;
     font-size: 12px;
@@ -268,13 +392,13 @@ button.plain {
     background-color: #1fd1b2;
 }
 
-/* the little label that appears when you hover over a bar */
+/* the small label that appears when you hover over a bar */
 .tip {
     display: none;
     position: absolute;
     bottom: 100%;
     left: 0;
-    width: 170px;
+    width: 150px;
     background-color: #191e24;
     color: #ffffff;
     font-size: 12px;
@@ -291,15 +415,68 @@ button.plain {
     display: inline-block;
     width: 12px;
     height: 12px;
-    margin-left: 8px;
+    margin-left: 10px;
 }
 
 /* ---------- 8. Footer ---------- */
 footer {
     text-align: center;
-    font-size: 13px;
+    font-size: 14px;
     color: #cccccc;
     background-color: #191e24;
-    padding: 16px;
+    padding: 20px 16px;
     margin-top: 40px;
+}
+
+footer p {
+    margin: 0 0 10px 0;
+}
+
+.github {
+    display: inline-block;
+    color: #ffffff;
+    text-decoration: none;
+    border: 1px solid #555d68;
+    border-radius: 20px;
+    padding: 6px 14px;
+}
+
+.github svg {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+    fill: #ffffff;
+}
+
+.github:hover {
+    border-color: #b6f83f;
+}
+
+/* ---------- 9. Phones (screens narrower than 650px) ---------- */
+@media (max-width: 650px) {
+    .brand {
+        font-size: 21px;
+    }
+
+    .brand img {
+        height: 42px;
+    }
+
+    nav a {
+        margin: 0 6px;
+        font-size: 14px;
+    }
+
+    .two, .compare-form {
+        grid-template-columns: 1fr;
+    }
+
+    .cards {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .tiles {
+        grid-template-columns: 1fr 1fr;
+    }
 }

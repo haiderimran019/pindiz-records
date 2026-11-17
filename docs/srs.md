@@ -30,9 +30,10 @@ it stores each player's last 10 PSL matches, shows them on a simple website, and
 ## 2. Functional requirements
 | ID | The system shall… |
 |---|---|
-| FR1 | Show every player in a row with photo, name, role, country and a form badge (In form / Steady / Out of form) |
-| FR2 | Open a player's totals and match table when their row is clicked |
-| FR3 | Show the booklet's match entry form (demonstration only, data is not saved) |
+| FR1 | Show every player as a card with photo, name, role and a form badge (In form / Steady / Out of form) |
+| FR2 | Open a player's profile page (totals and match table) when their card is clicked |
+| FR2b | Show the team's PSL 2026 results on the Home page: played, won, lost and results against each team |
+| FR3 | Show the Entry Form with the booklet's banner "Demonstration only — data is not saved" |
 | FR3b | Let the user add a new player (with photo), add a match record and remove a player (saved by the backend) |
 | FR3c | Check new records: runs 0 or more, wickets 0–10, name and date not empty |
 | FR3d | Filter the players by role (All, Batter, Bowler, All-rounder, Wicketkeeper) |
@@ -60,7 +61,7 @@ it stores each player's last 10 PSL matches, shows them on a simple website, and
 ## 4. Constraints
 - The pages use **HTML and CSS only**: no JavaScript.
 - The website is **not connected** to MySQL. The backend reads and saves the CSV files exported from MySQL.
-- The booklet's entry form (entry.html) does **not** save anything. Players are added and removed under "Manage players" on the Players page.
+- Records added on the Entry Form go into the website's demo copy of the data, never into the MySQL database. Reset brings back the original data.
 - Python is used only for the backend (`backend/app.py`) and the Gemini call (`api/gemini.py`).
 - The Gemini API key is kept in `api/key.txt` and is not submitted.
 

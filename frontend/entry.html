@@ -1,16 +1,17 @@
 <!DOCTYPE html>
+<!-- entry.html is filled in by the backend (backend/app.py): each {{...}} is replaced with real content -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Entry Form - Pindiz Records</title>
+    <title>Entry Form | Pindiz Records</title>
     <!-- EXTERNAL CSS: one stylesheet for every page -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER + NAV: the same on every page -->
+    <!-- HEADER: the same on every page -->
     <header>
-        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <a class="brand" href="index.html"><img src="images/logo.png" alt="Pindiz team logo">Pindiz Records</a>
         <nav>
             <a href="index.html">Home</a>
             <a href="players.html">Players</a>
@@ -20,68 +21,76 @@
     </header>
 
     <main>
-        <h2>Entry form</h2>
+        {{MESSAGE}}
+
+        <h2>Entry Form</h2>
 
         <!-- INLINE CSS: a one-off red warning on this line only -->
-        <p style="color: #cc0000; font-weight: bold; border: 2px solid #cc0000; padding: 10px;">
+        <p style="color: #cc0000; font-weight: bold; border: 2px solid #cc0000; border-radius: 8px; padding: 10px; text-align: center;">
             Demonstration only — data is not saved
         </p>
-        <p class="small">This is the paper version of the form. To save players and records for real, use "Manage players" on the <a href="players.html">Players</a> page.</p>
+        <p class="note">
+            Records added here are kept by the website for this demonstration only.
+            They are not saved into our MySQL database. The Reset button brings back the original data.
+        </p>
 
-        <div class="box">
-            <h3>Add a match record</h3>
-            <form action="#" method="get">
-                <label for="player">Player</label>
-                <select id="player" name="player">
-                    <option value="101" selected>Mohammad Rizwan</option>
-                    <option value="102">Naseem Shah</option>
-                    <option value="103">Mohammad Amir</option>
-                    <option value="104">Daryl Mitchell</option>
-                    <option value="105">Sam Billings</option>
-                    <option value="106">Yasir Khan</option>
-                    <option value="107">Kamran Ghulam</option>
-                    <option value="108">Rishad Hossain</option>
-                    <option value="109">Asif Afridi</option>
-                    <option value="110">Dian Forrester</option>
-                    <option value="111">Abdullah Fazal</option>
-                    <option value="112">Usman Khawaja</option>
-                    <option value="113">Amad Butt</option>
-                    <option value="114">Cole McConchie</option>
-                    <option value="115">Mohammad Amir Khan</option>
-                    <option value="116">Shahzaib Khan</option>
-                    <option value="117">Saad Masood</option>
-                    <option value="118">Razaullah Khan</option>
-                    <option value="119">Jalat Khan</option>
-                </select>
+        <div class="two">
+            <div class="box">
+                <h3>Add a match record</h3>
+                <form action="add_match" method="post">
+                    <label for="player_id">Player</label>
+                    <select id="player_id" name="player_id">
+                        {{OPTIONS}}
+                    </select>
 
-                <label for="date">Match date</label>
-                <input type="date" id="date" name="date" required>
+                    <label for="match_date">Match date</label>
+                    <input type="date" id="match_date" name="match_date" required>
 
+                    <label for="runs">Runs</label>
+                    <input type="number" id="runs" name="runs" min="0">
 
-                <label for="runs">Runs (leave empty if did not bat)</label>
-                <input type="number" id="runs" name="runs" min="0">
+                    <label for="wickets">Wickets</label>
+                    <input type="number" id="wickets" name="wickets" min="0" max="10">
 
-                <label for="wickets">Wickets (leave empty if did not bowl)</label>
-                <input type="number" id="wickets" name="wickets" min="0" max="10">
-                <br>
-                <button type="submit">Submit</button>
-            </form>
+                    <p class="small">Leave runs empty if the player did not bat, and wickets empty if they did not bowl.</p>
+                    <button type="submit">Add record</button>
+                </form>
+            </div>
+
+            <div class="box">
+                <h3>Add a new player</h3>
+                <form action="add_player" method="post" enctype="multipart/form-data">
+                    <label for="name">Full name</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="role">Role</label>
+                    <select id="role" name="role">
+                        <option>Batter</option>
+                        <option>Bowler</option>
+                        <option>All-rounder</option>
+                        <option>Wicketkeeper</option>
+                    </select>
+
+                    <label for="country">Country</label>
+                    <input type="text" id="country" name="country" value="Pakistan" required>
+
+                    <label for="photo">Photo</label>
+                    <input type="file" id="photo" name="photo" accept="image/*">
+
+                    <button type="submit">Add player</button>
+                </form>
+            </div>
         </div>
 
-        <div class="box">
-            <h3>Sample record</h3>
-            <p>This record was entered with the form above, then typed into MySQL as:</p>
-            <p><code>INSERT INTO Performances VALUES (310, 101, '2026-04-26', 26, NULL);</code></p>
-            <table>
-                <tr><th>Record ID</th><th>Player</th><th>Date</th><th>Runs</th><th>Wickets</th></tr>
-                <tr><td>310</td><td>Mohammad Rizwan (101)</td><td>2026-04-26</td><td>26</td><td>-</td></tr>
-            </table>
-        </div>
+        <form action="reset" method="post" class="center">
+            <button type="submit" class="light">Reset to the original data</button>
+        </form>
     </main>
 
     <!-- FOOTER: the same on every page -->
     <footer>
-        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+        <p>Data source: ESPNcricinfo Statsguru</p>
+        <a class="github" href="https://github.com/haiderimran019/pindiz-records"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>GitHub</a>
     </footer>
 </body>
 </html>

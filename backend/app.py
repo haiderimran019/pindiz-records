@@ -4,8 +4,9 @@
 #   1. Shows the website pages from the frontend folder.
 #   2. Builds the Players page from the data (database/players.csv and performances.csv),
 #      so added or removed players show up straight away.
-#   3. Adds a player, adds a match record, removes a player (saves to the CSV files).
-#   4. Compares 2 players: a stats table, a bar chart and Gemini's comparison + forecast.
+#   3. Shows one profile page per player (backend/player.html).
+#   4. Adds a player, adds a match record, removes a player (saves to the CSV files).
+#   5. Compares 2 players: a stats table, a bar chart and Gemini's comparison + forecast.
 #
 # How to run (from the main pindiz-records folder):
 #     pip install -r requirements.txt
@@ -182,8 +183,16 @@ def player_options(selected):
 
 
 def show(value):
-    # Empty cell = did not bat / did not bowl
-    return "-" if value == "" else value
+    # An empty cell means the player did not bat or did not bowl
+    return value
+
+
+def message_box():
+    # The green note shown after adding or removing (comes in the address: ?message=...)
+    message = request.args.get("message", "")
+    if message == "":
+        return ""
+    return '<p class="message">' + html.escape(message) + '</p>'
 
 
 # =====================================================
@@ -194,66 +203,78 @@ def home():
     return send_from_directory(FRONTEND, "index.html")
 
 
+# ---------- Players: a grid of player cards ----------
 @app.route("/players.html")
 def players_page():
     role = request.args.get("role", "All")          # the filter: All, Batter, Bowler ...
-    message = request.args.get("message", "")
 
-    # Build one <details> block per player
-    blocks = ""
+    cards = ""
     count = 0
     for player in read_csv("players.csv"):
         if role != "All" and player["role"] != role:
             continue
         count += 1
         rows = matches_of(player["player_id"])
-        stats = stats_of(player, rows)
         name = html.escape(player["name"])
-
-        table = ""
-        for row in rows:
-            table += ("<tr><td>" + row["performance_id"] + "</td><td>" + row["match_date"]
-                      + "</td><td>" + show(row["runs"]) + "</td><td>" + show(row["wickets"]) + "</td></tr>\n")
-
-        blocks += f"""
-        <details>
-            <summary>
+        cards += f"""
+            <a class="card" href="player?id={player['player_id']}">
                 <img src="images/{player['player_id']}.jpg" alt="Photo of {name}">
-                {name} <span class="role">· {player['role']} · {html.escape(player['country'])}</span>
+                <h3>{name}</h3>
+                <p>{player['role']}</p>
                 {badge(form_of(player, rows))}
-            </summary>
-            <div class="stats">
-                <p>Player ID {player['player_id']} · {stats['Matches']} matches ·
-                   <b>{stats['Runs']}</b> runs (best {stats['Best score']}) ·
-                   <b>{stats['Wickets']}</b> wickets (best {stats['Best wickets']})</p>
-                <table>
-                    <tr><th>Record ID</th><th>Date</th><th>Runs</th><th>Wickets</th></tr>
-                    {table}
-                </table>
-                <form action="remove" method="post">
-                    <input type="hidden" name="player_id" value="{player['player_id']}">
-                    <button type="submit" class="danger">Remove {name}</button>
-                </form>
-            </div>
-        </details>"""
+            </a>"""
 
-    # The filter links: All | Batter | Bowler | ...
+    # The filter buttons: All, Batter, Bowler ...
     filters = ""
     for choice in ["All"] + ROLES:
         css = ' class="active"' if choice == role else ""
         filters += '<a href="players.html?role=' + choice + '"' + css + '>' + choice + '</a>\n'
 
-    if message != "":
-        message = '<p class="message">' + html.escape(message) + '</p>'
-
     return fill(os.path.join(FRONTEND, "players.html"), {
-        "MESSAGE": message,
+        "MESSAGE": message_box(),
         "FILTERS": filters,
         "COUNT": count,
-        "PLAYERS": blocks,
+        "CARDS": cards,
         "OPTIONS_1": player_options("101"),
         "OPTIONS_2": player_options("105"),
-        "OPTIONS_ADD": player_options(""),
+    })
+
+
+# ---------- One player's profile ----------
+@app.route("/player")
+def player_page():
+    player = find_player(request.args.get("id"))
+    if player is None:
+        return redirect("players.html?message=That player was not found.")
+    rows = matches_of(player["player_id"])
+    stats = stats_of(player, rows)
+
+    table = ""
+    for row in rows:
+        table += ("<tr><td>" + row["performance_id"] + "</td><td>" + row["match_date"]
+                  + "</td><td>" + show(row["runs"]) + "</td><td>" + show(row["wickets"]) + "</td></tr>\n")
+
+    return fill(os.path.join(HERE, "player.html"), {
+        "ID": player["player_id"],
+        "NAME": html.escape(player["name"]),
+        "ROLE": player["role"],
+        "COUNTRY": html.escape(player["country"]),
+        "BADGE": badge(form_of(player, rows)),
+        "MATCHES": stats["Matches"],
+        "RUNS": stats["Runs"],
+        "BEST_SCORE": stats["Best score"],
+        "WICKETS": stats["Wickets"],
+        "BEST_WICKETS": stats["Best wickets"],
+        "TABLE": table,
+    })
+
+
+# ---------- Entry Form page ----------
+@app.route("/entry.html")
+def entry_page():
+    return fill(os.path.join(FRONTEND, "entry.html"), {
+        "MESSAGE": message_box(),
+        "OPTIONS": player_options(""),
     })
 
 
@@ -266,9 +287,9 @@ def add_player():
 
     # Check the input (the same rules as rules.md)
     if name == "" or country == "":
-        return redirect("players.html?message=Name and country cannot be empty.")
+        return redirect("entry.html?message=Name and country cannot be empty.")
     if role not in ROLES:
-        return redirect("players.html?message=Pick a role from the list.")
+        return redirect("entry.html?message=Pick a role from the list.")
 
     players = read_csv("players.csv")
     new_id = next_id(players, "player_id", 101)
@@ -279,12 +300,12 @@ def add_player():
     players.append({"player_id": new_id, "name": name, "role": role, "country": country})
     write_csv("players.csv", players, PLAYER_COLUMNS)
 
-    # Save the photo as images/<ID>.jpg (if one was chosen)
+    # Save the photo as images/<ID>.jpg, if one was chosen
     photo = request.files.get("photo")
     if photo and photo.filename != "":
         photo.save(os.path.join(PHOTOS, str(new_id) + ".jpg"))
 
-    return redirect("players.html?message=" + name + " was added with ID " + str(new_id) + ".")
+    return redirect("entry.html?message=" + name + " was added with ID " + str(new_id) + ".")
 
 
 # ---------- add a match record ----------
@@ -297,20 +318,20 @@ def add_match():
 
     # Check the input (the same rules as rules.md and 5_checks.sql)
     if find_player(player_id) is None or date == "":
-        return redirect("players.html?message=Pick a player and a date.")
+        return redirect("entry.html?message=Pick a player and a date.")
     if runs == "" and wickets == "":
-        return redirect("players.html?message=Enter runs, wickets or both.")
+        return redirect("entry.html?message=Enter runs, wickets or both.")
     if runs != "" and int(runs) < 0:
-        return redirect("players.html?message=Runs cannot be negative.")
+        return redirect("entry.html?message=Runs cannot be negative.")
     if wickets != "" and (int(wickets) < 0 or int(wickets) > 10):
-        return redirect("players.html?message=Wickets must be between 0 and 10.")
+        return redirect("entry.html?message=Wickets must be between 0 and 10.")
 
     matches = read_csv("performances.csv")
     new_id = next_id(matches, "performance_id", 301)
     matches.append({"performance_id": new_id, "player_id": player_id,
                     "match_date": date, "runs": runs, "wickets": wickets})
     write_csv("performances.csv", matches, MATCH_COLUMNS)
-    return redirect("players.html?message=Match record " + str(new_id) + " was added.")
+    return redirect("entry.html?message=Match record " + str(new_id) + " was added.")
 
 
 # ---------- remove a player ----------
@@ -337,7 +358,7 @@ def remove_player():
 def reset():
     for file_name in ["players.csv", "performances.csv"]:
         shutil.copy(os.path.join(ORIGINAL, file_name), os.path.join(DATA, file_name))
-    return redirect("players.html?message=The original data is back.")
+    return redirect("entry.html?message=The original data is back.")
 
 
 # ---------- compare 2 players ----------
@@ -349,7 +370,7 @@ def make_bar(rows, i, stat, biggest, colour_class):
     value = row[stat]
     if value == "":
         number = 0
-        value = "-"
+        value = "no"
     else:
         number = int(value)
     height = round(number / biggest * CHART_HEIGHT)

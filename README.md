@@ -12,15 +12,16 @@ Air University, Aerospace and Aviation Campus Kamra · Instructor: Moqadus Batoo
 ## Features
 | Feature | Where | How it works |
 |---|---|---|
-| Player profiles | Players | One row per player (photo, name, role, country). Click a row to open their stats and match table. |
-| Form badge | Players | **In form / Steady / Out of form**: the average of the last 3 matches compared with the matches before (runs for batters, wickets for bowlers). |
+| Team performance | Home | Pindiz in PSL 2026: played, won, lost, win rate, and results against each team. |
+| Player cards | Players | Every player in a grid of cards (photo, name, role), like the club website. |
+| Player profile | Click a card | Number tiles (matches, runs, best score, wickets, best wickets) and every match record. |
+| Form badge | Players and profiles | **In form / Steady / Out of form**: the average of the last 3 matches compared with the matches before (runs for batters, wickets for bowlers). |
 | Role filter | Players | Show All, Batters, Bowlers, All-rounders or Wicketkeepers. |
-| Add / remove players | Players → Manage players | Add a player with a photo, add a match record, remove a player. Input is checked (runs ≥ 0, wickets 0–10). |
-| Compare two players | Players → Compare | A side-by-side stats table (better number highlighted), a bar chart (hover a bar for the match) and Gemini's comparison and forecast. |
-| Findings | Findings | 3 findings from our SQL queries, leaders, data checks and a limitation. |
-| Booklet demo form | Entry Form | The labelled form marked "Demonstration only — data is not saved". |
+| Compare two players | Players | A side by side stats table (better number in green), a bar chart (hover a bar for the match) and Gemini's comparison and forecast. |
+| Add and remove | Entry Form and profiles | Add a player with a photo, add a match record, remove a player. Input is checked: runs 0 or more, wickets 0 to 10. |
+| Findings | Findings | Number tiles and 3 findings from our SQL queries, leaders and data checks. |
 
-No JavaScript is used. Player rows open with the HTML `<details>` tag, chart bars are `<div>`s with an inline height, and hover labels use CSS `:hover`.
+No JavaScript is used. Player cards are links to profile pages, chart bars are `<div>`s with an inline height, and hover labels use CSS `:hover`.
 
 ---
 
@@ -30,12 +31,13 @@ pindiz-records/
 ├── frontend/              what the user sees (HTML + CSS)
 │   ├── index.html         Home
 │   ├── players.html       Players page template (the backend fills in the {{...}} parts)
-│   ├── entry.html         Booklet demo form
+│   ├── entry.html         Entry Form template: add a match record or a player
 │   ├── findings.html      Findings
 │   ├── style.css          the one stylesheet (8 numbered sections)
-│   └── images/            player photos, named by player ID (101.jpg …)
+│   └── images/            team logo and player photos, named by player ID (101.jpg …)
 ├── backend/
 │   ├── app.py             Flask server: pages, add/remove, form badge, compare
+│   ├── player.html        Player profile page template
 │   └── compare.html       Compare result page template
 ├── api/
 │   └── gemini.py          the only file that talks to Gemini
@@ -82,7 +84,8 @@ Run these in MySQL Workbench or XAMPP phpMyAdmin, in order, on a fresh database:
 
 ## The live website
 Hosted on Vercel from this repository (`vercel.json` sends every request to `backend/app.py`).
-- The live server can't change its own files, so added or removed players are saved in temporary storage. They **reset** when the server restarts. Use "Reset to the original data" to start clean.
+- The live server can't change its own files, so added or removed players are saved in temporary storage. They **reset** when the server restarts. "Reset to the original data" on the Entry Form starts clean.
+- This is why the Entry Form carries the booklet's banner "Demonstration only — data is not saved": records added on the website never go into the MySQL database.
 - To turn on Gemini online, add the key as an environment variable:
   `vercel env add GEMINI_API_KEY production`, then redeploy with `vercel deploy --prod`.
 
@@ -99,7 +102,7 @@ Hosted on Vercel from this repository (`vercel.json` sends every request to `bac
 | "Form" should use the last 5 matches | `FORM_MATCHES = 3` → `5` | backend/app.py |
 | Make "In form" stricter | `FORM_CHANGE = 0.2` → `0.3` | backend/app.py |
 | Change what Gemini is asked | `INSTRUCTIONS` | api/gemini.py |
-| Add a player | "Add a new player" form | Players page |
+| Add a player | "Add a new player" form | Entry Form page |
 | Rename a nav link | link text in `<nav>` | every HTML page + backend/compare.html |
 
 ## Team
@@ -112,10 +115,13 @@ Hosted on Vercel from this repository (`vercel.json` sends every request to `bac
 
 ## Sources
 - Match records: ESPNcricinfo Statsguru, https://stats.espncricinfo.com (collected November 2026). Each player's 10 most recent PSL matches from the last 2 years; players with fewer show all they have.
-- Squad and player photos: the official Pindiz team page, https://thepindiz.com (November 2026).
+- Team results: ESPNcricinfo Statsguru, Rawalpindiz team results for PSL 2026.
+- Squad, team logo and player photos: the official Pindiz website, https://thepindiz.com (November 2026).
 - Team colours: https://thepindiz.com and Instagram @thepindiz.
-- Roles were set by the team. The badge image was made by the team.
-- This is a student project, not an official Pindiz website.
+- Roles were set by the team.
+
+## Limitation
+Ten matches is a small sample: it shows recent form, not true ability. Some players have very few PSL matches (Jalat Khan 1, Amad Butt and Razaullah Khan 2), so their numbers are less reliable.
 
 ## Use of AI tools
 (Write here how your team used AI tools, if your instructor or university asks you to say so.

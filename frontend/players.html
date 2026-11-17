@@ -1,18 +1,17 @@
 <!DOCTYPE html>
-<!-- players.html - the backend (backend/app.py) fills in every {{...}} part from the data.
-     Open it through the backend: python backend/app.py, then http://127.0.0.1:5000/players.html -->
+<!-- players.html is filled in by the backend (backend/app.py): each {{...}} is replaced with real content -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Players - Pindiz Records</title>
+    <title>Players | Pindiz Records</title>
     <!-- EXTERNAL CSS: one stylesheet for every page -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- HEADER + NAV: the same on every page -->
+    <!-- HEADER: the same on every page -->
     <header>
-        <h1>Pindi<span class="lime">z</span> Records</h1>
+        <a class="brand" href="index.html"><img src="images/logo.png" alt="Pindiz team logo">Pindiz Records</a>
         <nav>
             <a href="index.html">Home</a>
             <a href="players.html">Players</a>
@@ -25,95 +24,47 @@
         {{MESSAGE}}
 
         <!-- 1. COMPARE: the only part that uses Gemini -->
-        <div class="box" id="compare">
-            <h2>Compare two players</h2>
+        <h2>Compare two players</h2>
+        <div class="box">
             <form action="compare" method="get">
-                <label for="player1">Player 1</label>
-                <select id="player1" name="player1">
-                    {{OPTIONS_1}}
-                </select>
-
-                <label for="player2">Player 2</label>
-                <select id="player2" name="player2">
-                    {{OPTIONS_2}}
-                </select>
-
-                <label for="stat">Chart shows</label>
-                <select id="stat" name="stat">
-                    <option value="runs">Runs</option>
-                    <option value="wickets">Wickets</option>
-                </select>
-                <br>
-                <button type="submit">Compare</button>
+                <div class="compare-form">
+                    <div>
+                        <label for="player1">Player 1</label>
+                        <select id="player1" name="player1">
+                            {{OPTIONS_1}}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="player2">Player 2</label>
+                        <select id="player2" name="player2">
+                            {{OPTIONS_2}}
+                        </select>
+                    </div>
+                    <div>
+                        <label for="stat">Chart shows</label>
+                        <select id="stat" name="stat">
+                            <option value="runs">Runs</option>
+                            <option value="wickets">Wickets</option>
+                        </select>
+                    </div>
+                </div>
+                <p class="center"><button type="submit">Compare</button></p>
             </form>
         </div>
 
-        <!-- 2. PLAYERS: click a name to open their records (<details>, no JavaScript) -->
-        <h2>Players ({{COUNT}})</h2>
-        <p class="filters">Show: {{FILTERS}}</p>
-        <p class="small">
-            Click a player to see their records. "-" means did not bat / did not bowl.<br>
-            Form = average of the last 3 matches compared with the matches before
-            (runs for batters, wickets for bowlers).
-        </p>
-        {{PLAYERS}}
-
-        <!-- 3. MANAGE: add a player or a match record (saved by the backend) -->
-        <h2>Manage players</h2>
-
-        <div class="box">
-            <h3>Add a new player</h3>
-            <form action="add_player" method="post" enctype="multipart/form-data">
-                <label for="name">Full name</label>
-                <input type="text" id="name" name="name" required>
-
-                <label for="role">Role</label>
-                <select id="role" name="role">
-                    <option>Batter</option>
-                    <option>Bowler</option>
-                    <option>All-rounder</option>
-                    <option>Wicketkeeper</option>
-                </select>
-
-                <label for="country">Country</label>
-                <input type="text" id="country" name="country" value="Pakistan" required>
-
-                <label for="photo">Photo (optional)</label>
-                <input type="file" id="photo" name="photo" accept="image/*">
-                <br>
-                <button type="submit">Add player</button>
-            </form>
+        <!-- 2. SQUAD: one card per player. Click a card to open the profile -->
+        <h2>Squad</h2>
+        <div class="filters">{{FILTERS}}</div>
+        <div class="cards">
+            {{CARDS}}
         </div>
-
-        <div class="box">
-            <h3>Add a match record</h3>
-            <form action="add_match" method="post">
-                <label for="player_id">Player</label>
-                <select id="player_id" name="player_id">
-                    {{OPTIONS_ADD}}
-                </select>
-
-                <label for="match_date">Match date</label>
-                <input type="date" id="match_date" name="match_date" required>
-
-                <label for="runs">Runs (empty = did not bat)</label>
-                <input type="number" id="runs" name="runs" min="0">
-
-                <label for="wickets">Wickets (empty = did not bowl)</label>
-                <input type="number" id="wickets" name="wickets" min="0" max="10">
-                <br>
-                <button type="submit">Add record</button>
-            </form>
-        </div>
-
-        <form action="reset" method="post">
-            <button type="submit" class="plain">Reset to the original data</button>
-        </form>
+        <p class="small center">{{COUNT}} players. Form compares the last 3 matches with the matches before them.</p>
     </main>
 
     <!-- FOOTER: the same on every page -->
     <footer>
-        <p>Data: ESPNcricinfo Statsguru (Nov 2026). Student project, not an official Pindiz website.</p>
+        <p>Data source: ESPNcricinfo Statsguru</p>
+        <a class="github" href="https://github.com/haiderimran019/pindiz-records"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>GitHub</a>
     </footer>
 </body>
 </html>
