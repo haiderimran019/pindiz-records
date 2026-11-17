@@ -102,6 +102,7 @@ Hosted on Vercel from this repository (`vercel.json` sends every request to `bac
 | "Form" should use the last 5 matches | `FORM_MATCHES = 3` → `5` | backend/app.py |
 | Make "In form" stricter | `FORM_CHANGE = 0.2` → `0.3` | backend/app.py |
 | Change what Gemini is asked | `INSTRUCTIONS` | api/gemini.py |
+| Wait longer for Gemini | `WAIT_SECONDS = 25` | api/gemini.py |
 | Add a player | "Add a new player" form | Entry Form page |
 | Rename a nav link | link text in `<nav>` | every HTML page + backend/compare.html |
 
